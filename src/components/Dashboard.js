@@ -5,8 +5,6 @@ import axios from 'axios';
 async function handleLogout() {
     try {
         await axios.post('http://localhost:1337/api/user/logout');
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('refreshToken');
         
         window.location.href = '/login';
     } catch (error) {
@@ -16,7 +14,7 @@ async function handleLogout() {
 
 function Dashboard() {
     useEffect(() => {
-        const accessToken = localStorage.getItem('accessToken');
+        const accessToken = document.cookie.indexOf('accessToken');
         if (!accessToken) {
             window.location.href = '/login';
         }

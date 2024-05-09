@@ -25,6 +25,7 @@ function LoginPage() {
         { username, password },
         { withCredentials: true }
       );
+      console.log(response)
       
       const { accessToken, refreshToken } = response.data;
       localStorage.setItem('accessToken', accessToken);
