@@ -13,6 +13,8 @@ function LoginPage() {
     setCaptchaVerified(true); 
   };
 
+  
+
   const handleLogin = async () => {
     try {
       if (!captchaVerified) {
