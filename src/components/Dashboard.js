@@ -4,7 +4,7 @@ import axios from 'axios';
 
 async function handleLogout() {
     try {
-        await axios.post('http://localhost:1337/api/user/logout');
+        await axios.post('https://localhost:1337/api/user/logout');
         
         window.location.href = '/login';
     } catch (error) {

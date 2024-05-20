@@ -21,7 +21,7 @@ function LoginPage() {
       }
 
       const response = await axios.post(
-        'http://localhost:1337/api/user/login',
+        'https://localhost:1337/api/user/login',
         { username, password },
         { withCredentials: true }
       );
