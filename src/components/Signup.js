@@ -24,7 +24,7 @@ const Signup = () => {
        
         console.log("Registration successful");
        
-        window.location.href = "/login";
+        window.location.href = "/";
       } else {
         setError(response.data.message);
       }
@@ -52,7 +52,7 @@ const Signup = () => {
         </div>
         <button type="submit">Signup</button>
       </form>
-      <Link to="/login">Login</Link> 
+      <Link to="/">Login</Link> 
       {error && <p style={{ color: "red" }}>{error}</p>}
     </div>
   );
