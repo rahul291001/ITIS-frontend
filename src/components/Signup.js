@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import CryptoJS from "crypto-js";
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -17,13 +18,24 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:1337/api/user/register", formData, {
-        withCredentials: true, 
+     
+      const secretKey = '7a8e0b7d5f6c3a919a8b7c8f4a9d3b0e1f2a7c6d8b9e0f1a3c4d6b8e7f0a9c5'; // Use the same key as on the backend
+      const encryptedPassword = CryptoJS.AES.encrypt(formData.password, secretKey).toString();
+
+     
+      const encryptedFormData = {
+        ...formData,
+        password: encryptedPassword,
+      };
+
+
+      
+      const response = await axios.post("http://localhost:1337/api/user/register", encryptedFormData, {
+        withCredentials: true,
       });
+
       if (response.data.success) {
-       
         console.log("Registration successful");
-       
         window.location.href = "/";
       } else {
         setError(response.data.message);
@@ -52,7 +64,7 @@ const Signup = () => {
         </div>
         <button type="submit">Signup</button>
       </form>
-      <Link to="/">Login</Link> 
+      <Link to="/">Login</Link>
       {error && <p style={{ color: "red" }}>{error}</p>}
     </div>
   );

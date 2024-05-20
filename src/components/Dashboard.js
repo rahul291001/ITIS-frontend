@@ -6,7 +6,7 @@ async function handleLogout() {
     try {
         await axios.post('http://localhost:1337/api/user/logout');
         
-        window.location.href = '/login';
+        window.location.href = '/';
     } catch (error) {
         console.error('An error occurred during logout:', error);
     }
@@ -16,7 +16,7 @@ function Dashboard() {
     useEffect(() => {
         const accessToken = document.cookie.indexOf('accessToken');
         if (!accessToken) {
-            window.location.href = '/login';
+            window.location.href = '/';
         }
     }, []);
 

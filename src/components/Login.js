@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import ReCAPTCHA from "react-google-recaptcha";
+import CryptoJS from "crypto-js";
 
 function LoginPage() {
   const [username, setUsername] = useState('');
@@ -13,8 +14,6 @@ function LoginPage() {
     setCaptchaVerified(true); 
   };
 
-  
-
   const handleLogin = async () => {
     try {
       if (!captchaVerified) {
@@ -22,20 +21,28 @@ function LoginPage() {
         return;
       }
 
+      const secretKey = '7a8e0b7d5f6c3a919a8b7c8f4a9d3b0e1f2a7c6d8b9e0f1a3c4d6b8e7f0a9c5'; // Use the same key for encryption
+      const encryptedPassword = CryptoJS.AES.encrypt(password, secretKey).toString();
+
       const response = await axios.post(
         'http://localhost:1337/api/user/login',
-        { username, password },
+        { username, password: encryptedPassword },
         { withCredentials: true }
       );
-      console.log(response)
+      console.log("Data sent to backend:", { username, password: encryptedPassword });
       
+      if (response.status !== 200) {
+        throw new Error('Login failed. Please check your credentials.');
+      }
+
       const { accessToken, refreshToken } = response.data;
       localStorage.setItem('accessToken', accessToken);
       localStorage.setItem('refreshToken', refreshToken);
+
       
       window.location.href = '/dashboard';
     } catch (error) {
-      const errorMessage = error.response.data.message || 'An error occurred.';
+      const errorMessage = error.response?.data?.message || 'An error occurred.';
       setError(errorMessage);
     }
   };
