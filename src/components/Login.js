@@ -30,14 +30,13 @@ function LoginPage() {
         { withCredentials: true }
       );
       console.log("Data sent to backend:", { username, password: encryptedPassword });
+      console.log(response)
       
       if (response.status !== 200) {
         throw new Error('Login failed. Please check your credentials.');
       }
 
-      const { accessToken, refreshToken } = response.data;
-      localStorage.setItem('accessToken', accessToken);
-      localStorage.setItem('refreshToken', refreshToken);
+      
 
       
       window.location.href = '/dashboard';
