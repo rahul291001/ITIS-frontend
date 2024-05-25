@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import ReCAPTCHA from "react-google-recaptcha";
 import CryptoJS from "crypto-js";
+import { UserContext } from './UserContext'; // Import UserContext
 
 function LoginPage() {
+  const { updateUser } = useContext(UserContext); // Use named export
+
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -29,17 +32,14 @@ function LoginPage() {
         { username, password: encryptedPassword },
         { withCredentials: true }
       );
-      console.log("Data sent to backend:", { username, password: encryptedPassword });
-      console.log(response)
-      
-      if (response.status !== 200) {
+
+      if (response.status === 200) {
+        const user = response.data.user;
+        updateUser(user._id); // Save the user ID in UserContext
+        window.location.href = '/dashboard';
+      } else {
         throw new Error('Login failed. Please check your credentials.');
       }
-
-      
-
-      
-      window.location.href = '/dashboard';
     } catch (error) {
       const errorMessage = error.response?.data?.message || 'An error occurred.';
       setError(errorMessage);
