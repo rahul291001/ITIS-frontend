@@ -6,6 +6,8 @@ import LoginPage from './components/Login';
 import Dashboard from './components/Dashboard';
 import Signup from './components/Signup';
 
+import ForgotPassword from './components/forgot-password';
+
 function App() {
   return (
     
@@ -14,6 +16,8 @@ function App() {
           <Route path="/"  element={<LoginPage />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/signup" element={<Signup />} />
+          
+          <Route path="/forgot" element={<ForgotPassword />} />
         </Routes>
       </Router>
    

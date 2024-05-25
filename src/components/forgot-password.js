@@ -1,40 +1,36 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import axios from 'axios'; // for making API requests
 
-const ForgotPasswordForm = () => {
+const ForgotPassword = () => {
   const [email, setEmail] = useState('');
-  const [error, setError] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
+  const [message, setMessage] = useState('');
+  const [error, setError] = useState(null);
 
-  const handleForgotPassword = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('/api/forgot-password', { email });
-      if (response.data.success) {
-        setSuccessMessage(response.data.message);
-      } else {
-        setError(response.data.message);
-      }
+      const response = await axios.post('http://localhost:1337/api/user/forgot-password', { email });
+      setMessage(response.data.message);
+      setError(null);
     } catch (error) {
-      console.error('An error occurred:', error);
-      setError('An error occurred. Please try again later.');
+      console.error(error);
+      setMessage('');
+      setError('Error sending request. Please try again.');
     }
   };
 
   return (
     <div>
       <h2>Forgot Password</h2>
-      <form onSubmit={handleForgotPassword}>
-        <div>
-          <label>Email:</label>
-          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-        </div>
-        <button type="submit">Submit</button>
+      {message && <p>{message}</p>}
+      {error && <p className="error">{error}</p>}
+      <form onSubmit={handleSubmit}>
+        <label htmlFor="email">Email:</label>
+        <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+        <button type="submit">Send Reset Link</button>
       </form>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
     </div>
   );
 };
 
-export default ForgotPasswordForm;
+export default ForgotPassword;

@@ -21,7 +21,7 @@ function LoginPage() {
         return;
       }
 
-      const secretKey = '7a8e0b7d5f6c3a919a8b7c8f4a9d3b0e1f2a7c6d8b9e0f1a3c4d6b8e7f0a9c5'; // Use the same key for encryption
+      const secretKey = '7a8e0b7d5f6c3a919a8b7c8f4a9d3b0e1f2a7c6d8b9e0f1a3c4d6b8e7f0a9c5'; 
       const encryptedPassword = CryptoJS.AES.encrypt(password, secretKey).toString();
 
       const response = await axios.post(
@@ -74,7 +74,8 @@ function LoginPage() {
       <div>
         <button onClick={handleLogin} disabled={!captchaVerified}>Login</button>
       </div>
-      <Link to="/signup">Sign Up</Link> 
+      <Link to="/signup">Sign Up</Link> <br></br>
+      <Link to="/forgot">Forgot Password?</Link>
       {error && <div style={{ color: 'red' }}>{error}</div>}
     </div>
   );
