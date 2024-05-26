@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Header from "./adminHeader";
 
 const UploadBook = () => {
   const [bookTitle, setBookTitle] = useState("");
@@ -7,16 +8,52 @@ const UploadBook = () => {
   const [author, setAuthor] = useState("");
   const [publisher, setPublisher] = useState("");
   const [description, setDescription] = useState("");
-  const [file, setFile] = useState("");
+  const [file, setFile] = useState(null); // Ensure file is null initially
   const [error, setError] = useState("");
   const [uploadSuccess, setUploadSuccess] = useState(false); // State to track upload success
-  const [isAdmin, setIsAdmin] = useState(false); // State to track admin status
+  const [isAdmin, setIsAdmin] = useState(null); 
 
   useEffect(() => {
     // Check if the user is an admin
-    const isAdmin = JSON.parse(localStorage.getItem('isAdmin'));
-    setIsAdmin(isAdmin);
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user) {
+      console.log("User found in local storage:", user); // Debugging log
+      setIsAdmin(user.isAdmin);
+    } else {
+      console.log("No user found in local storage");
+      setIsAdmin(false); // Explicitly set to false if no user is found
+    }
   }, []);
+
+  const handleLogout = async () => {
+    try {
+      const response = await fetch('http://localhost:1337/api/user/logout', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      if (response.ok) {
+        console.log('Logged out successfully');
+        // Clear user data from localStorage
+        localStorage.removeItem('user');
+        
+        // Redirect to the home page
+        window.location.href = '/';
+        
+        // Close WebSocket connection if it exists
+        if (window.webSocketConnection) {
+          window.webSocketConnection.close();
+          console.log('WebSocket connection closed');
+        }
+      } else {
+        console.error('Logout failed');
+      }
+    } catch (error) {
+      console.error('Error during logout:', error);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -37,22 +74,26 @@ const UploadBook = () => {
       });
       console.log(res.data);
       setUploadSuccess(true);
+      setError(""); // Clear error message on successful upload
     } catch (err) {
       console.error(err);
       setError('Failed to upload book. Please try again.'); // Set error message
     }
   };
 
-  // Render blank page if user is not an admin
-  if (!isAdmin) {
-    return null;
+  if (isAdmin === null) {
+    return <div>Loading...</div>; // Show a loading indicator while checking admin status
   }
 
- 
+  // Render message if user is not an admin
+  if (!isAdmin) {
+    return <div>You do not have access to this page.</div>;
+  }
 
   return (
     <div className="form-container">
       <h2>Book Form</h2>
+      <Header isAdmin={isAdmin} handleLogout={handleLogout} />
       <form id="bookForm" onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="title">Book Title:</label>

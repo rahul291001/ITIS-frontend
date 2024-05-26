@@ -1,7 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 const Header = ({ isAdmin }) => {
+  useEffect(() => {
+    // Check if the user is an admin
+    if (isAdmin) {
+      console.log('User is an admin');
+      // You can perform any admin-related actions here
+    }
+  }, [isAdmin]); // Run the effect whenever isAdmin changes
+
   async function handleLogout() {
     try {
       const response = await fetch('http://localhost:1337/api/user/logout', {
