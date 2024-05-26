@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import Header from './adminHeader';
 
 function AdminUserList() {
   const [users, setUsers] = useState([]);
@@ -20,11 +20,18 @@ function AdminUserList() {
     fetchData();
   }, []);
 
-  const handleToggleAdmin = async (userId, isAdmin) => {
-    
+  const handleToggleAdmin = async (userId) => {
+    // Retrieve isAdmin status from local storage
+    const isAdmin = JSON.parse(localStorage.getItem('isAdmin'));
+
+    // Check if the user is an admin
+    if (!isAdmin) {
+      console.error('User is not authorized to perform this action.');
+      return;
+    }
+
     setError(null); // Clear any previous error before update
     try {
-       
       // Update user's isAdmin status (optimistic update)
       const updatedUser = { ...users.find(user => user.id === userId), isAdmin: !isAdmin };
       setUsers(users.map(user => (user.id === userId ? updatedUser : user)));
@@ -35,18 +42,22 @@ function AdminUserList() {
       console.error('Error toggling admin status:', error);
       setError('Failed to update admin status. Please try again.'); // Set error message
     }
-    if (!userId) {
-        console.error('Missing user ID for admin update');
-        return;
-    
-  }};
+  };
+
+  // If user is not an admin, return null to render nothing
+  const isAdmin = JSON.parse(localStorage.getItem('isAdmin'));
+  if (!isAdmin) {
+    return null;
+  }
 
   return (
     <div>
       <h2>Admin User List</h2>
-      <Link to="/dashboard">Dashboard</Link>
       {error && <div className="error-message">{error}</div>} {/* Display error message if present */}
       <table>
+        <div>
+            <Header />
+        </div>
         <thead>
           <tr>
             <th>Username</th>
@@ -58,22 +69,21 @@ function AdminUserList() {
         </thead>
         <tbody>
         {users.map(user => (
-  <tr key={user._id}> {/* Assuming the user ID property is named "_id" */}
-    <td>{user.username}</td>
-    <td>{user.email}</td>
-    <td>{user.isAdmin ? 'Admin' : 'User'}</td>
-    <td>
-      <button onClick={() => handleToggleAdmin(user._id, user.isAdmin)}> {/* Pass user._id instead of user.id */}
-        {user.isAdmin ? 'Remove Admin' : 'Make Admin'}
-      </button>
-    </td>
-  </tr>
-))}
+          <tr key={user._id}> {/* Assuming the user ID property is named "_id" */}
+            <td>{user.username}</td>
+            <td>{user.email}</td>
+            <td>{user.isAdmin ? 'Admin' : 'User'}</td>
+            <td>
+              <button onClick={() => handleToggleAdmin(user._id)}> {/* Pass user._id */}
+                {user.isAdmin ? 'Remove Admin' : 'Make Admin'}
+              </button>
+            </td>
+          </tr>
+        ))}
         </tbody>
       </table>
     </div>
   );
 }
-
 
 export default AdminUserList;

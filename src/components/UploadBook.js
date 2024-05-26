@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 const UploadBook = () => {
@@ -10,6 +10,13 @@ const UploadBook = () => {
   const [file, setFile] = useState("");
   const [error, setError] = useState("");
   const [uploadSuccess, setUploadSuccess] = useState(false); // State to track upload success
+  const [isAdmin, setIsAdmin] = useState(false); // State to track admin status
+
+  useEffect(() => {
+    // Check if the user is an admin
+    const isAdmin = JSON.parse(localStorage.getItem('isAdmin'));
+    setIsAdmin(isAdmin);
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -30,12 +37,16 @@ const UploadBook = () => {
       });
       console.log(res.data);
       setUploadSuccess(true);
-      window.location.href = '/dashboard'; // Set upload success to true
     } catch (err) {
       console.error(err);
       setError('Failed to upload book. Please try again.'); // Set error message
     }
   };
+
+  // Render blank page if user is not an admin
+  if (!isAdmin) {
+    return null;
+  }
 
  
 

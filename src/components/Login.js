@@ -34,8 +34,14 @@ function LoginPage() {
       );
 
       if (response.status === 200) {
-        const user = response.data.user;
-        updateUser(user._id); // Save the user ID in UserContext
+        const userData = response.data.user;
+        const userToStore = {
+          userId: userData._id, // Assuming _id is the user ID field
+          isAdmin: userData.isAdmin
+        };
+        localStorage.setItem('user', JSON.stringify(userToStore));
+        updateUser(userToStore);
+        
         window.location.href = '/dashboard';
       } else {
         throw new Error('Login failed. Please check your credentials.');
