@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import CryptoJS from "crypto-js";
+import '../css/Signup.css'
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -58,7 +59,7 @@ const Signup = () => {
       };
 
       const response = await axios.post(
-        "http://localhost:1337/api/user/register",
+        "https://localhost:1337/api/user/register",
         encryptedFormData,
         {
           withCredentials: true,
@@ -78,53 +79,55 @@ const Signup = () => {
   };
 
   return (
-    <div>
+    <div className="signup-form">
       <h2>Signup</h2>
+      {error && <div className="error-message">{error}</div>}
       <form onSubmit={handleSubmit}>
-        <div>
+        <div className="form-group">
           <label>Username:</label>
           <input
             type="text"
             name="username"
             value={formData.username}
             onChange={handleChange}
+            required
           />
         </div>
-        <div>
+        <div className="form-group">
           <label>Email:</label>
           <input
             type="email"
             name="email"
             value={formData.email}
             onChange={handleChange}
+            required
           />
         </div>
-        <div>
+        <div className="form-group">
           <label>Password:</label>
           <input
             type="password"
             name="password"
             value={formData.password}
             onChange={handleChange}
+            required
           />
         </div>
-        <div>
-          <ul>
-            <li style={{ color: passwordStrength.lowercase ? "green" : "red" }}>
+        <div className="form-group">
+          <ul className="password-strength">
+            <li style={{ color: passwordStrength.lowercase ? 'green' : 'red' }}>
               Contains at least one lowercase letter
             </li>
-            <li style={{ color: passwordStrength.uppercase ? "green" : "red" }}>
+            <li style={{ color: passwordStrength.uppercase ? 'green' : 'red' }}>
               Contains at least one uppercase letter
             </li>
-            <li style={{ color: passwordStrength.digit ? "green" : "red" }}>
+            <li style={{ color: passwordStrength.digit ? 'green' : 'red' }}>
               Contains at least one digit
             </li>
-            <li
-              style={{ color: passwordStrength.specialChar ? "green" : "red" }}
-            >
+            <li style={{ color: passwordStrength.specialChar ? 'green' : 'red' }}>
               Contains at least one special character
             </li>
-            <li style={{ color: passwordStrength.length ? "green" : "red" }}>
+            <li style={{ color: passwordStrength.length ? 'green' : 'red' }}>
               Is at least 8 characters long
             </li>
           </ul>
@@ -133,8 +136,7 @@ const Signup = () => {
           Signup
         </button>
       </form>
-      <Link to="/">Login</Link>
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      <Link className="link" to="/">Login</Link>
     </div>
   );
 };

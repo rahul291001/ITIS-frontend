@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Header from "./adminHeader";
-
+import '../css/UploadBook.css'
 const UploadBook = () => {
   const [bookTitle, setBookTitle] = useState("");
   const [yearPublication, setYearPublication] = useState("");
@@ -27,7 +27,7 @@ const UploadBook = () => {
 
   const handleLogout = async () => {
     try {
-      const response = await fetch('http://localhost:1337/api/user/logout', {
+      const response = await fetch('https://localhost:1337/api/user/logout', {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -66,7 +66,7 @@ const UploadBook = () => {
     formData.append("file", file);
 
     try {
-      const res = await axios.post(`http://localhost:1337/api/books/upload`, formData, {
+      const res = await axios.post(`https://localhost:1337/api/books/upload`, formData, {
         withCredentials: true,
         headers: {
           "Content-Type": "multipart/form-data",
@@ -92,8 +92,10 @@ const UploadBook = () => {
 
   return (
     <div className="form-container">
-      <h2>Book Form</h2>
       <Header isAdmin={isAdmin} handleLogout={handleLogout} />
+      <h2>Upload Book</h2>
+      {uploadSuccess && <div className="success-message">Book uploaded successfully!</div>}
+      {error && <div className="error-message">{error}</div>}
       <form id="bookForm" onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="title">Book Title:</label>
@@ -107,7 +109,7 @@ const UploadBook = () => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="year">Book Year Publication:</label>
+          <label htmlFor="year">Year of Publication:</label>
           <input
             type="text"
             id="year"
@@ -118,7 +120,7 @@ const UploadBook = () => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="author">Book Author:</label>
+          <label htmlFor="author">Author:</label>
           <input
             type="text"
             id="author"
@@ -129,7 +131,7 @@ const UploadBook = () => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="publisher">Book Publisher:</label>
+          <label htmlFor="publisher">Publisher:</label>
           <input
             type="text"
             id="publisher"
@@ -149,7 +151,7 @@ const UploadBook = () => {
           ></textarea>
         </div>
         <div className="form-group">
-          <label htmlFor="location">Upload File:</label>
+          <label htmlFor="file">Upload File:</label>
           <input type="file" accept=".pdf" onChange={(e) => setFile(e.target.files[0])} />
         </div>
         <button type="submit">Upload</button>

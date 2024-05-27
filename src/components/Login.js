@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import ReCAPTCHA from "react-google-recaptcha";
 import CryptoJS from "crypto-js";
 import { UserContext } from './UserContext'; // Import UserContext
+import '../css/Login.css'
 
 function LoginPage() {
   const { updateUser } = useContext(UserContext); // Use named export
@@ -28,7 +29,7 @@ function LoginPage() {
       const encryptedPassword = CryptoJS.AES.encrypt(password, secretKey).toString();
 
       const response = await axios.post(
-        'http://localhost:1337/api/user/login',
+        'https://localhost:1337/api/user/login',
         { username, password: encryptedPassword },
         { withCredentials: true }
       );
@@ -53,37 +54,39 @@ function LoginPage() {
   };
 
   return (
-    <div>
-      <h2>Login Form</h2>
-      <div>
-        <label>Username:</label>
-        <input 
-          type="text" 
-          value={username} 
-          onChange={(e) => setUsername(e.target.value)} 
-          required 
-        />
-      </div>
-      <div>
-        <label>Password:</label>
-        <input 
-          type="password" 
-          value={password} 
-          onChange={(e) => setPassword(e.target.value)} 
-          required 
-        />
-      </div>
+    <div className="login-form">
+    <h2>Login Form</h2>
+    {error && <div className="error-message">{error}</div>}
+    <div className="form-group">
+      <label>Username:</label>
+      <input 
+        type="text" 
+        value={username} 
+        onChange={(e) => setUsername(e.target.value)} 
+        required 
+      />
+    </div>
+    <div className="form-group">
+      <label>Password:</label>
+      <input 
+        type="password" 
+        value={password} 
+        onChange={(e) => setPassword(e.target.value)} 
+        required 
+      />
+    </div>
+    <div className="space-below">
       <ReCAPTCHA
         sitekey="6LeBu9IpAAAAAK1WnYGciKqBRDPVW_GRp0blwf5X"
         onChange={onChange}
       />
-      <div>
-        <button onClick={handleLogin} disabled={!captchaVerified}>Login</button>
-      </div>
-      <Link to="/signup">Sign Up</Link> <br></br>
-      <Link to="/forgot">Forgot Password?</Link>
-      {error && <div style={{ color: 'red' }}>{error}</div>}
     </div>
+    <div>
+      <button onClick={handleLogin} disabled={!captchaVerified}>Login</button>
+    </div>
+    <Link className="link" to="/signup">Sign Up</Link> <br />
+    <Link className="link" to="/forgot">Forgot Password?</Link>
+  </div>
   );
 }
 

@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import '../css/adminHeader.css'
 
 const Header = ({ isAdmin }) => {
   useEffect(() => {
@@ -12,7 +13,7 @@ const Header = ({ isAdmin }) => {
 
   async function handleLogout() {
     try {
-      const response = await fetch('http://localhost:1337/api/user/logout', {
+      const response = await fetch('https://localhost:1337/api/user/logout', {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -41,17 +42,19 @@ const Header = ({ isAdmin }) => {
   }
 
   return (
-    <header>
-      {isAdmin && (
-        <div>
-          <Link to="/dashboard">Dashboard</Link><br />
-          <Link to="/upload-book">Upload a book</Link><br />
-          <Link to="/all-users">List of Users</Link>
+    <header className="admin-header">
+      <div className="header-container">
+        <div className="nav-links">
+          {isAdmin && (
+            <>
+              <Link to="/dashboard">Dashboard</Link>
+              <Link to="/upload-book">Upload a book</Link>
+              <Link to="/all-users">List of Users</Link>
+            </>
+          )}
         </div>
-      )}
-      <div className="container">
         <div className="logout-container">
-          <button onClick={handleLogout}>Logout</button>
+          <button onClick={handleLogout} className="logout-button">Logout</button>
         </div>
       </div>
     </header>

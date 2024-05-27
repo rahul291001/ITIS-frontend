@@ -1,0 +1,107 @@
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background-image: url('https://img.freepik.com/free-photo/abundant-collection-antique-books-wooden-shelves-generated-by-ai_188544-29660.jpg?t=st=1715045175~exp=1715048775~hmac=87df0b5adef4d726886f3cf5785215b223589cc936d3ef0751101fdcb106ba60&w=2000');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+
+.dashboard {
+    width: 100%;
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    position: relative;
+}
+
+
+.dashboard-header {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #0056b3;
+}
+
+
+.search-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+
+.dashboard-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.dashboard-table th,
+.dashboard-table td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+}
+
+.dashboard-table th {
+    background-color: #f4f4f4;
+}
+
+.dashboard-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.dashboard-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    background-color: #dc3545;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+button:hover {
+    background-color: #c82333;
+    transform: translateY(-2px);
+}
+
+
+@media (max-width: 600px) {
+    .dashboard {
+        padding: 10px;
+    }
+
+    .dashboard-header {
+        font-size: 20px;
+    }
+
+    .search-input {
+        font-size: 14px;
+    }
+
+    .dashboard-table th, .dashboard-table td {
+        padding: 8px;
+    }
+
+    button {
+        font-size: 14px;
+        padding: 8px 16px;
+    }
+}

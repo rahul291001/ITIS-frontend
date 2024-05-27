@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import CryptoJS from 'crypto-js';
+import '../css/resetPassword.css'
 
 const secretKey = "7a8e0b7d5f6c3a919a8b7c8f4a9d3b0e1f2a7c6d8b9e0f1a3c4d6b8e7f0a9c5";
 
@@ -67,7 +68,7 @@ const ResetPassword = () => {
     }
     try {
       const encryptedPassword = Cypher(password);
-      const response = await axios.post(`http://localhost:1337/api/user/reset-password`, {
+      const response = await axios.post(`https://localhost:1337/api/user/reset-password`, {
         token: token,
         password: encryptedPassword 
       });
@@ -90,8 +91,8 @@ const ResetPassword = () => {
   };
 
   return (
-    <div className="container">
-      <h1>Reset Your Password</h1>
+    <div className="reset-password-form">
+      <h2>Reset Your Password</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="password">New Password</label>
@@ -115,10 +116,10 @@ const ResetPassword = () => {
           <div>
             <p>Password Strength:</p>
             <ul>
-              <li style={{ color: passwordStrength.lowercase ? 'green' : 'red' }}>It should contain atleast one lowercase</li>
-              <li style={{ color: passwordStrength.uppercase ? 'green' : 'red' }}>It should contain atleast one uppercase</li>
-              <li style={{ color: passwordStrength.digit ? 'green' : 'red' }}>It should contain atleast one digit</li>
-              <li style={{ color: passwordStrength.specialChar ? 'green' : 'red' }}>It should contain atleast one special character</li>
+              <li style={{ color: passwordStrength.lowercase ? 'green' : 'red' }}>It should contain at least one lowercase</li>
+              <li style={{ color: passwordStrength.uppercase ? 'green' : 'red' }}>It should contain at least one uppercase</li>
+              <li style={{ color: passwordStrength.digit ? 'green' : 'red' }}>It should contain at least one digit</li>
+              <li style={{ color: passwordStrength.specialChar ? 'green' : 'red' }}>It should contain at least one special character</li>
               <li style={{ color: passwordStrength.length ? 'green' : 'red' }}>Minimum length (8 characters)</li>
             </ul>
           </div>
@@ -126,10 +127,12 @@ const ResetPassword = () => {
         <div className="form-group">
           <button type="submit" disabled={!isAllRequirementsMet()}>Reset Password</button>
         </div>
-        
       </form>
       {message && <div className="message">{message}</div>}
       {error && <div className="error">{error}</div>}
+      <div className="links">
+        <Link to="/">Back to Login</Link>
+      </div>
     </div>
   );
 };

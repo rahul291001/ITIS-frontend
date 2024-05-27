@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Header from './adminHeader';
-
+import '../css/adminUserList.css'
 function AdminUserList() {
   const [users, setUsers] = useState([]);
   const [error, setError] = useState(null); // State for error message
@@ -16,7 +16,7 @@ function AdminUserList() {
     }
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:1337/api/user/all`, { withCredentials: true });
+        const response = await axios.get(`https://localhost:1337/api/user/all`, { withCredentials: true });
         setUsers(response.data.users);
       } catch (error) {
         console.error('Error fetching users:', error);
@@ -40,7 +40,7 @@ function AdminUserList() {
       setUsers(users.map(user => (user._id === userId ? updatedUser : user)));
   
       // Send PUT request to backend API
-      await axios.put(`http://localhost:1337/api/user/${userId}`, { isAdmin: !isAdmin }, { withCredentials: true });
+      await axios.put(`https://localhost:1337/api/user/${userId}`, { isAdmin: !isAdmin }, { withCredentials: true });
     } catch (error) {
       console.error('Error toggling admin status:', error);
       setError('Failed to update admin status. Please try again.'); // Set error message
@@ -48,18 +48,17 @@ function AdminUserList() {
   };
 
   return (
-    <div>
+    <div className="admin-user-list">
       <Header isAdmin={isAdmin} /> {/* Pass isAdmin prop to Header component */}
       <h2>Admin User List</h2>
       {error && <div className="error-message">{error}</div>} {/* Display error message if present */}
-      <table>
+      <table className="user-table">
         <thead>
           <tr>
             <th>Username</th>
             <th>Email</th>
             <th>Role</th>
             <th>Action</th>
-            {/* Add more table headers as needed */}
           </tr>
         </thead>
         <tbody>
