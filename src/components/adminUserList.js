@@ -16,7 +16,7 @@ function AdminUserList() {
     }
     const fetchData = async () => {
       try {
-        const response = await axios.get(`https://localhost:1337/api/user/all`, { withCredentials: true });
+        const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/user/all`, { withCredentials: true });
         setUsers(response.data.users);
       } catch (error) {
         console.error('Error fetching users:', error);
@@ -40,7 +40,7 @@ function AdminUserList() {
       setUsers(users.map(user => (user._id === userId ? updatedUser : user)));
   
       // Send PUT request to backend API
-      await axios.put(`https://localhost:1337/api/user/${userId}`, { isAdmin: !isAdmin }, { withCredentials: true });
+      await axios.put(`${process.env.REACT_APP_BASE_URL}/api/user/${userId}`, { isAdmin: !isAdmin }, { withCredentials: true });
     } catch (error) {
       console.error('Error toggling admin status:', error);
       setError('Failed to update admin status. Please try again.'); // Set error message

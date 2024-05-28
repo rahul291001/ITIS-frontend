@@ -59,7 +59,7 @@ const Signup = () => {
       };
 
       const response = await axios.post(
-        "https://localhost:1337/api/user/register",
+        `${process.env.REACT_APP_BASE_URL}/api/user/register`,
         encryptedFormData,
         {
           withCredentials: true,

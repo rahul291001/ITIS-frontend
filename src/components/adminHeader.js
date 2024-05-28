@@ -13,7 +13,7 @@ const Header = ({ isAdmin }) => {
 
   async function handleLogout() {
     try {
-      const response = await fetch('https://localhost:1337/api/user/logout', {
+      const response = await fetch(`${process.env.REACT_APP_BASE_URL}/api/user/logout`, {
         method: 'POST',
         credentials: 'include',
         headers: {

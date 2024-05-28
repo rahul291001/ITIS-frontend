@@ -27,7 +27,7 @@ const UploadBook = () => {
 
   const handleLogout = async () => {
     try {
-      const response = await fetch('https://localhost:1337/api/user/logout', {
+      const response = await fetch(`${process.env.REACT_APP_BASE_URL}/api/user/logout`, {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -66,7 +66,7 @@ const UploadBook = () => {
     formData.append("file", file);
 
     try {
-      const res = await axios.post(`https://localhost:1337/api/books/upload`, formData, {
+      const res = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/books/upload`, formData, {
         withCredentials: true,
         headers: {
           "Content-Type": "multipart/form-data",

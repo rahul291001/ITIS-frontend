@@ -3,11 +3,10 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import ReCAPTCHA from "react-google-recaptcha";
 import CryptoJS from "crypto-js";
-import { UserContext } from './UserContext'; // Import UserContext
-import '../css/Login.css'
-
+import { UserContext } from './UserContext'; 
+import '../css/Login.css';
 function LoginPage() {
-  const { updateUser } = useContext(UserContext); // Use named export
+  const { updateUser } = useContext(UserContext); 
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -29,7 +28,7 @@ function LoginPage() {
       const encryptedPassword = CryptoJS.AES.encrypt(password, secretKey).toString();
 
       const response = await axios.post(
-        'https://localhost:1337/api/user/login',
+        `${process.env.REACT_APP_BASE_URL}/api/user/login`,
         { username, password: encryptedPassword },
         { withCredentials: true }
       );
@@ -37,7 +36,7 @@ function LoginPage() {
       if (response.status === 200) {
         const userData = response.data.user;
         const userToStore = {
-          userId: userData._id, // Assuming _id is the user ID field
+          userId: userData._id, 
           isAdmin: userData.isAdmin
         };
         localStorage.setItem('user', JSON.stringify(userToStore));

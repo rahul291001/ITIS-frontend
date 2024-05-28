@@ -8,7 +8,6 @@ const ForgotPassword = () => {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
   const [error, setError] = useState(null);
-hgvjschibchj wyv
 
   const handleSubmit = async (e) => {
     e.preventDefault();

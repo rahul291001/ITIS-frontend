@@ -22,7 +22,7 @@ function Dashboard() {
   useEffect(() => {
     const fetchBooks = async () => {
       try {
-        const res = await axios.get(`https://localhost:1337/api/books`, { withCredentials: true });
+        const res = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/books`, { withCredentials: true });
         setBooks(res.data.books);
       } catch (err) {
         console.error(err);
@@ -45,7 +45,7 @@ function Dashboard() {
 
   const handleDeleteBook = async (bookId) => {
     try {
-      await axios.delete(`https://localhost:1337/api/books/${bookId}`, { withCredentials: true });
+      await axios.delete(`${process.env.REACT_APP_BASE_URL}/api/books/${bookId}`, { withCredentials: true });
       setBooks(books.filter((book) => book._id !== bookId));
       alert('Book deleted successfully');
     } catch (err) {

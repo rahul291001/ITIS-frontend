@@ -68,7 +68,7 @@ const ResetPassword = () => {
     }
     try {
       const encryptedPassword = Cypher(password);
-      const response = await axios.post(`https://localhost:1337/api/user/reset-password`, {
+      const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/user/reset-password`, {
         token: token,
         password: encryptedPassword 
       });
